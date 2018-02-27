@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 #include <queue>
-#include "Mutex.h"
+#include <mutex>
+#include <condition_variable>
 
 typedef struct {
     int32_t event_id;
@@ -13,9 +14,9 @@ typedef struct {
 namespace nonsugar {
 class MessageQueue final{
 private:
-    Mutex mutex_;
+    std::mutex mutex_;
+	std::condition_variable cond_;
     std::queue<thread_msg> msg_queue_;
-    bool is_wait_;
 
 public:
     MessageQueue(void);
@@ -32,7 +33,7 @@ public:
     * @param msg   --- 送信するメッセージ
     *
     */
-    void MessageSend(const thread_msg& send_msg);
+    void Send(const thread_msg& send_msg);
 
     /**
     * メッセージ受信
@@ -40,7 +41,7 @@ public:
     * @param msg   --- メッセージの格納先
     *
     */
-    void MessageReceive(thread_msg& reseive_msg);
+    void Receive(thread_msg& reseive_msg);
 };
 
 } //namespace nonsugar

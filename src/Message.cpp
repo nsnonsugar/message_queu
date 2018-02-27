@@ -50,10 +50,10 @@ void DeleteMessageQueue(void)
 
 void ReceiveMsg( MsgQueueID queue_id, thread_msg& msg)
 {
-    message_.queue[queue_id]->MessageReceive(msg);
+    message_.queue[queue_id]->Receive(msg);
 }
 
 void SendMsg( MsgQueueID queue_id, const thread_msg& msg)
 {
-    message_.queue[queue_id]->MessageSend( msg );
+    message_.queue[queue_id]->Send( msg );
 }
