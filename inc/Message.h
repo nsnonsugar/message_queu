@@ -1,11 +1,16 @@
-﻿#ifndef MESSAGE_H__
-#define MESSAGE_H__
+﻿#ifndef MESSAGE_H_
+#define MESSAGE_H_
 
 #include <stdint.h>
 #include "MessageQueue.h"
 
 //宣言のみ 定義は共通ヘッダ等で行う
 enum MsgQueueID : int32_t;
+
+typedef struct {
+    int32_t event_id;
+    void* data;
+}thread_msg;
 
 enum MsgQueueStatus : int8_t{
     UNUSE = 0,
@@ -58,4 +63,4 @@ void ReceiveMsg(MsgQueueID queue_id, thread_msg& msg);
 */
 void SendMsg(MsgQueueID queue_id, const thread_msg& msg);
 
-#endif //MESSAGE_H__
+#endif //MESSAGE_H_

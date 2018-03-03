@@ -1,11 +1,10 @@
 ﻿#include "Message.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 
 typedef struct{
     int32_t queue_num;
-    nonsugar::MessageQueue* queue[MSG_QUEUE_MAX_NUM];
+    nonsugar::MessageQueue<thread_msg>* queue[MSG_QUEUE_MAX_NUM];
 }MessageManage;
 MessageManage message_;
 
@@ -29,7 +28,7 @@ void CreateMessageQueue(const MessageConfig* config, int32_t num)
     for(int i = 0; i<num; ++i){
         if(config[i].use == USE){
             if(config[i].msg_queue_id < MSG_QUEUE_MAX_NUM){
-                message_.queue[config[i].msg_queue_id] = new(nonsugar::MessageQueue);
+                message_.queue[config[i].msg_queue_id] = new(nonsugar::MessageQueue<thread_msg>);
                 ++message_.queue_num;
             }else{
                 //0～MSG_QUEUE_MAX_NUM-1以上のIDは無効

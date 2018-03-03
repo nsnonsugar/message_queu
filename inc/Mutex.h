@@ -1,5 +1,5 @@
-﻿#ifndef MUTEX_H__
-#define MUTEX_H__
+﻿#ifndef MUTEX_H_
+#define MUTEX_H_
 
 #ifdef WIN32
 #include <windows.h>
@@ -52,9 +52,9 @@ public:
     /**
     * Waitのブロッキングを解除する
     */
-    void Blocking(void);
+    void UnBlocking(void);
 
 };
 
 }//namespace nonsugar
-#endif //MUTEX_H__
+#endif //MUTEX_H_
