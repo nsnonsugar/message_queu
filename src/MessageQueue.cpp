@@ -15,12 +15,9 @@ void MessageQueue::Send(const thread_msg& send_msg)
 {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    //メッセージキューが待ち状態の時は解除する
-    if (msg_queue_.empty()){
-        cond_.notify_all();
-    }
-
     msg_queue_.push(send_msg);
+
+    cond_.notify_all();
 }
 
 void MessageQueue::Receive(thread_msg& reseive_msg)
@@ -28,7 +25,7 @@ void MessageQueue::Receive(thread_msg& reseive_msg)
     std::unique_lock<std::mutex> lock(mutex_);
 
     if(msg_queue_.empty()){
-        cond_.wait(lock);
+        cond_.wait(lock, [&]{ return msg_queue_.size(); });
     }
 
     reseive_msg = msg_queue_.front();
